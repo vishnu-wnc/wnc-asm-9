@@ -1,37 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recipe Manager</title>
     <link rel="stylesheet" href="styles.css">
+
 </head>
+
 <body>
     <header>
         <h1>Recipe Manager</h1>
     </header>
     <main>
 
-        <!-- Main form here for adding recipes -->
-        <form id="recipe-form">
-            <input type="text" id="recipe-name" placeholder="Recipe Name" required>
-            <textarea id="ingredients" placeholder="Ingredients"></textarea>
-            <div id="steps-container">
-                <textarea class="cooking-step" placeholder="Cooking Step"></textarea>
-            </div>
-            <button type="button" id="add-step-btn">+</button>
-            <input type="file" id="recipe-image" accept="image/*">
-            <select id="category">
-                <option value="">Select Category</option>
-                <option value="Breakfast">Breakfast</option>
-                <option value="Lunch">Lunch</option>
-                <option value="Dinner">Dinner</option>
-                <option value="Snack">Snack</option>
-            </select>
-            <button type="submit">Add Recipe</button>
-        </form>
-        <input type="text" id="search-bar" placeholder="Search Recipes...">
-        <ul id="recipe-list"></ul>
+        <div id="list">
+            <input type="text" id="search-bar" placeholder="Search Recipes... Put atlease 3 characters">
+            <ul id="recipe-list"></ul>
+        </div>
+        <div id="form">
+            <!-- Main form here for adding recipes -->
+            <form id="recipe-form">
+                <input type="text" id="recipe-name" placeholder="Recipe Name" required>
+                <textarea id="ingredients" placeholder="Ingredients"></textarea>
+                <div id="steps-container">
+                    <textarea class="cooking-step" placeholder="Cooking Step"></textarea>
+                </div>
+                <button type="button" id="add-step-btn">+</button>
+                <input type="file" id="recipe-image" accept="image/*">
+                <select id="category">
+                    <option value="">Select Category</option>
+                    <option value="Breakfast">Breakfast</option>
+                    <option value="Lunch">Lunch</option>
+                    <option value="Dinner">Dinner</option>
+                    <option value="Snack">Snack</option>
+                </select>
+                <button type="submit">Add Recipe</button>
+            </form>
+        </div>
     </main>
 
     <!-- Modal for displaying recipe details which is hidden by default -->
@@ -48,4 +55,5 @@
 
     <script src="script.js"></script>
 </body>
+
 </html>
