@@ -64,6 +64,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const closeModal = document.querySelector('.close');
 
     /**
+     * Keeps track of the index of the recipe currently being edited
+     * @type {number|null}
+     */
+    let editIndex = null;
+
+    /**
      * Getting the JSON data of recipes from the local storage
      */
     let recipes = JSON.parse(localStorage.getItem('recipes')) || [];
@@ -152,8 +158,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 image: event.target.result
             };
 
-            recipes.push(newRecipe);
-            saveToLocalStorage();
+            // If the recipe is being edited, replace the old recipe with the new one
+            if (editIndex !== null) {
+                recipes[editIndex] = newRecipe;
+                saveToLocalStorage();
+                editIndex = null;
+            } else {
+                recipes.push(newRecipe);
+                saveToLocalStorage();
+            }
             renderRecipes(recipes);
             recipeForm.reset();
             stepsContainer.innerHTML = '<textarea class="cooking-step" placeholder="Cooking Step"></textarea>'; // Reset steps
@@ -169,8 +182,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 category: category,
                 image: '' // No image
             };
-            recipes.push(newRecipe);
-            saveToLocalStorage();
+            if (editIndex !== null) {
+                recipes[editIndex] = newRecipe;
+                saveToLocalStorage();
+                editIndex = null;
+            } else {
+                recipes.push(newRecipe);
+                saveToLocalStorage();
+            }
             recipeForm.reset();
             stepsContainer.innerHTML = '<textarea class="cooking-step" placeholder="Cooking Step"></textarea>';
             renderRecipes(recipes);
@@ -213,10 +232,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         document.getElementById('category').value = recipe.category;
 
-        // remove the recipe from the list to avoid duplication
-        recipes.splice(index, 1);
-        saveToLocalStorage();
-        renderRecipes(recipes);
+        // setting the edit index to the current index
+        editIndex = index;
+
     }
 
     /**
@@ -252,13 +270,19 @@ document.addEventListener('DOMContentLoaded', () => {
     // Search functionality by name and category
     searchBar.addEventListener('input', () => {
         const searchTerm = searchBar.value.toLowerCase();
-        const filteredRecipes = recipes.filter(recipe =>
-            recipe.name.toLowerCase().includes(searchTerm) ||
-            recipe.ingredients.toLowerCase().includes(searchTerm) ||
-            recipe.category.toLowerCase().includes(searchTerm)
-        );
-        //rendering the filtered results
-        renderRecipes(filteredRecipes);
+        if (searchTerm.length === 3) {
+
+            const filteredRecipes = recipes.filter(recipe =>
+                recipe.name.toLowerCase().includes(searchTerm) ||
+                recipe.ingredients.toLowerCase().includes(searchTerm) ||
+                recipe.category.toLowerCase().includes(searchTerm)
+            );
+            //rendering the filtered results
+            renderRecipes(filteredRecipes);
+        }
+        else if (searchTerm.length === 0) {
+            renderRecipes(recipes);
+        }
     });
 
     renderRecipes(recipes);
